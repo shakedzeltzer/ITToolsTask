@@ -4,15 +4,15 @@
   tasks:
   - name: Copy files from local to remote
     copy:
-      src: /home/vagrant/plays/cert/webserverCert.key
+      src: /home/vagrant/ITToolsTask/plays/cert/webserverCert.key
       dest: /etc/pki/tls/private/webserverCert.key
       owner: vagrant
       group: vagrant
       mode: '0644'
   - name: Copy files from local to remote
     copy:
-      src: /home/vagrant/plays/cert/webserverCert.pem
-      dest: /etc/pki/tls/certs/webserverCert.pem
+      src: /home/vagrant/ITToolsTask/plays/cert/webserverCert.crt
+      dest: /etc/pki/tls/certs/webserverCert.crt
       owner: vagrant
       group: vagrant
       mode: '0644'

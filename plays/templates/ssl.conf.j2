@@ -4,8 +4,8 @@ Listen 443
     ServerName www.example.com:443
 
     SSLEngine on
-    SSLCertificateFile /etc/pki/tls/certs/webserverCert.pem
-    SSLCertificateChainFile /etc/pki/tls/certs/webserverCert.pem
+    SSLCertificateFile /etc/pki/tls/certs/webserverCert.crt
+    SSLCertificateKeyFile /etc/pki/tls/private/webserverCert.key
 
     <Directory "/var/www/html">
         AllowOverride All
