@@ -1,0 +1,36 @@
+- name: Setup CA locally
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Create private key for new certificate on server_1
+    community.crypto.openssl_privatekey:
+      path: /home/vagrant/plays/cert/webserverCert.key
+  
+  - name: Create certificate signing request (CSR) for new certificate
+    community.crypto.openssl_csr_pipe:
+      privatekey_path: /home/vagrant/plays/cert/webserverCert.key
+      subject_alt_name:
+        - "DNS:catsfood.com"
+        - "DNS:bighead.com"
+        - "IP:192.168.33.13"
+        - "IP:192.168.33.14"
+        - "IP:192.168.33.15"
+        - "IP:192.168.33.16"
+
+    register: csr
+  
+  - name: Sign certificate with our CA
+    community.crypto.x509_certificate_pipe:
+      csr_content: "{{ csr.csr }}"
+      provider: ownca
+      ownca_path: /home/vagrant/plays/CA/ca-certificate.pem
+      ownca_privatekey_path: /home/vagrant/plays/CA/ca-certificate.key
+      ownca_not_after: +365d  # valid for one year
+      ownca_not_before: "-1d"  # valid since yesterday
+    run_once: true
+    register: certificate
+  
+  - name: Write certificate file to cert folder
+    copy:
+      dest: /home/vagrant/plays/cert/webserverCert.pem
+      content: "{{ certificate.certificate }}"

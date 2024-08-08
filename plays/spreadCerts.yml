@@ -1,0 +1,24 @@
+- name: Install httpd and config incoming traffic ports
+  hosts: catfood_webservers:bighead_webservers
+  become: true
+  tasks:
+  - name: Copy files from local to remote
+    copy:
+      src: /home/vagrant/plays/cert/webserverCert.key
+      dest: /etc/pki/tls/private/webserverCert.key
+      owner: vagrant
+      group: vagrant
+      mode: '0644'
+  - name: Copy files from local to remote
+    copy:
+      src: /home/vagrant/plays/cert/webserverCert.pem
+      dest: /etc/pki/tls/certs/webserverCert.pem
+      owner: vagrant
+      group: vagrant
+      mode: '0644'
+  - name: Template a file to /var/www/html/index.html
+    template:
+      src: ssl.conf.j2
+      dest: /etc/httpd/conf.d/ssl.conf
+      owner: vagrant
+      group: vagrant

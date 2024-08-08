@@ -1,0 +1,24 @@
+frontend http_front
+    bind *:80
+
+    default_backend catsfood_back
+
+    acl ACL_catsfood hdr(host) -i catsfood.com
+    use_backend catsfood_back if ACL_catsfood
+
+    acl ACL_bighead hdr(host) -i bighead.com
+    use_backend bighead_back if ACL_bighead
+  
+backend catsfood_back
+    balance roundrobin
+    mode http
+    {% for host in groups['catfood_webservers'] %}
+    server web{{ loop.index }} {{ host }}:80 check
+    {% endfor %}
+
+backend bighead_back
+    balance roundrobin
+    mode http
+    {% for host in groups['bighead_webservers'] %}
+    server app{{ loop.index }} {{ host }}:80 check
+    {% endfor %}

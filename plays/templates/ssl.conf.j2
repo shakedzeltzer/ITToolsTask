@@ -1,0 +1,15 @@
+Listen 443
+<VirtualHost *:443>
+    DocumentRoot "/var/www/html"
+    ServerName www.example.com:443
+
+    SSLEngine on
+    SSLCertificateFile /etc/pki/tls/certs/webserverCert.pem
+    SSLCertificateChainFile /etc/pki/tls/certs/webserverCert.pem
+
+    <Directory "/var/www/html">
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+

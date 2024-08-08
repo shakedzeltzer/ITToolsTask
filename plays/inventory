@@ -1,0 +1,11 @@
+[haproxy]
+haproxy1 ansible_host=192.168.33.11
+haproxy2 ansible_host=192.168.33.12
+
+[catfood_webservers]
+192.168.33.13
+192.168.33.14
+
+[bighead_webservers]
+192.168.33.15
+192.168.33.16

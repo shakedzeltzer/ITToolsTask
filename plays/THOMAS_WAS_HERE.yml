@@ -1,0 +1,4 @@
+hosts: shaked
+tasks:
+
+- name: turn shaked zeltser into a straight dude
