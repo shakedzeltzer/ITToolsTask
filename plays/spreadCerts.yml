@@ -9,6 +9,7 @@
       owner: vagrant
       group: vagrant
       mode: '0644'
+    notify: restart httpd
   - name: Copy files from local to remote
     copy:
       src: /home/vagrant/ITToolsTask/plays/cert/webserverCert.crt
@@ -16,9 +17,21 @@
       owner: vagrant
       group: vagrant
       mode: '0644'
+    notify: restart httpd
+  - name: Install the mod_ssl package
+    yum:
+      name: mod_ssl
+      state: present
   - name: Template a file to /var/www/html/index.html
     template:
       src: ssl.conf.j2
       dest: /etc/httpd/conf.d/ssl.conf
       owner: vagrant
       group: vagrant
+    notify: restart httpd
+
+  handlers:
+    - name: restart httpd
+      service:
+        name: httpd
+        state: restarted

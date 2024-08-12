@@ -6,7 +6,11 @@
       yum:
         name: keepalived
         state: present
-
+    - name: Enable keepalived service on boot
+      systemd:
+        name: keepalived
+        enabled: yes
+        state: started
     - name: Configure Keepalived
       template:
         src: keepalived.conf.j2
@@ -14,14 +18,8 @@
       notify:
         - Restart Keepalived
 
-    - name: Ensure Keepalived is running and enabled
-      service:
-        name: keepalived
-        state: started
-        enabled: yes
-
-  handlers:
-    - name: Restart Keepalived
-      service:
-        name: keepalived
-        state: restarted
+    handlers:
+      - name: Restart Keepalived
+        service:
+          name: keepalived
+          state: restarted

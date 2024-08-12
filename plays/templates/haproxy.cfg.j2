@@ -1,5 +1,5 @@
-frontend http_front
-    bind *:80
+frontend https_front
+    bind *:443 ssl crt /etc/pki/tls/certs/webserverCert.pem
 
     default_backend catsfood_back
 
@@ -13,12 +13,12 @@ backend catsfood_back
     balance roundrobin
     mode http
     {% for host in groups['catfood_webservers'] %}
-    server web{{ loop.index }} {{ host }}:80 check
+    server web{{ loop.index }} {{ host }}:443 ssl verify required ca-file /etc/pki/CA/certs/ca-certificate.crt check-ssl
     {% endfor %}
 
 backend bighead_back
     balance roundrobin
     mode http
     {% for host in groups['bighead_webservers'] %}
-    server app{{ loop.index }} {{ host }}:80 check
+    server app{{ loop.index }} {{ host }}:443 ssl verify required ca-file /etc/pki/CA/certs/ca-certificate.crt check-ssl
     {% endfor %}

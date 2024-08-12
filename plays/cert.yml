@@ -13,6 +13,9 @@
       subject_alt_name:
         - "DNS:catsfood.com"
         - "DNS:bighead.com"
+        - "IP:192.168.33.100"
+        - "IP:192.168.33.11"
+        - "IP:192.168.33.12"
         - "IP:192.168.33.13"
         - "IP:192.168.33.14"
         - "IP:192.168.33.15"
@@ -35,3 +38,5 @@
     copy:
       dest: /home/vagrant/ITToolsTask/plays/cert/webserverCert.crt
       content: "{{ certificate.certificate }}"
+  - name: Combine files using shell command
+    shell: "cat /home/vagrant/ITToolsTask/plays/cert/webserverCert.key /home/vagrant/ITToolsTask/plays/cert/webserverCert.crt > /home/vagrant/ITToolsTask/plays/cert/webserverCert.pem"
