@@ -11,6 +11,10 @@
         name: keepalived
         enabled: yes
         state: started
+    - name: Install psmic package
+      yum:
+        name: psmisc
+        state: present
     - name: Configure Keepalived
       template:
         src: keepalived.conf.j2
@@ -18,8 +22,8 @@
       notify:
         - Restart Keepalived
 
-    handlers:
-      - name: Restart Keepalived
-        service:
-          name: keepalived
-          state: restarted
+  handlers:
+    - name: Restart Keepalived
+      service:
+        name: keepalived
+        state: restarted
